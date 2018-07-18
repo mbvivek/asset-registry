@@ -15,6 +15,8 @@ import { AdminDashboardComponent } from './components/dashboard/admin-dashboard/
 // services
 import { UportService } from './services/uport/uport.service';
 import { Web3Service } from './services/web3/web3.service';
+import { PersonService } from './services/person/person.service';
+import { AssetService } from './services/asset/asset.service';
 
 @NgModule({
   declarations: [AppComponent, DashboardComponent, AdminDashboardComponent],
@@ -26,7 +28,7 @@ import { Web3Service } from './services/web3/web3.service';
     MetaModule,
     RoutesModule,
   ],
-  providers: [Web3Service, UportService],
+  providers: [Web3Service, UportService, PersonService, AssetService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

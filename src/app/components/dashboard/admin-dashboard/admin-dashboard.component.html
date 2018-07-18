@@ -1,33 +1,70 @@
-<h2 class="text-center text-muted">Admin Dashboard</h2>
+<h5 class="text-center text-muted">Admin Dashboard</h5>
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Create an Asset
+          Assets
         </button>
       </h5>
     </div>
-
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        <form #createAssetForm="ngForm" (submit)="createAsset($event, createAssetForm)" ngNativeValidate>
-          <div class="row">
-            <div class="col-md-6 form-group">
-              <label for="assetName">Name</label>
-              <input type="text" class="form-control" id="assetName" name="assetName" [(ngModel)]="newAsset.name" placeholder="Ex: Asset 1"
-                required>
+        <div class="p-3 m-3 border">
+          <p class="text-center text-muted">
+            <strong>
+              <u>Create Asset</u>
+            </strong>
+          </p>
+          <form #createAssetForm="ngForm" (submit)="createAsset($event, createAssetForm)" ngNativeValidate>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="assetName">Name</label>
+                <input type="text" class="form-control" id="assetName" name="assetName" [(ngModel)]="newAsset.name" placeholder="Ex: Asset 1"
+                  required>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="assetDesc">Description</label>
+                <input type="text" class="form-control" id="assetDesc" name="assetDesc" [(ngModel)]="newAsset.desc" placeholder="Ex: Microsoft Stock"
+                  required>
+              </div>
             </div>
-            <div class="col-md-6 form-group">
-              <label for="assetDesc">Description</label>
-              <input type="text" class="form-control" id="assetDesc" name="assetDesc" [(ngModel)]="newAsset.desc" placeholder="Ex: Microsoft Stock"
-                required>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-5">Submit</button>
             </div>
+          </form>
+        </div>
+        <div class="p-3 m-3 border">
+          <p class="text-center text-muted">
+            <strong>
+              <u>View Assets</u>
+            </strong>
+          </p>
+          <div>
+            Available Assets :
+            <strong>{{assets.length}}</strong>
+            <button class="btn btn-sm btn-primary float-right" (click)="getAssets()">Refresh</button>
           </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary px-5">Submit</button>
-          </div>
-        </form>
+          <hr>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Onwership Contract</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let asset of assets; let i = index;">
+                <th scope="row">{{i+1}}</th>
+                <td>{{asset[0]}}</td>
+                <td>{{asset[1]}}</td>
+                <td>{{asset[2]}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -36,35 +73,65 @@
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
           aria-controls="collapseTwo">
-          View Assets
+          Persons
         </button>
       </h5>
     </div>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
       <div class="card-body">
-        <div>
-          <strong>{{assetCount}}</strong> asset(s) found.
-          <button class="btn btn-sm btn-primary float-right" (click)="getAssets()">Refresh</button>
+        <div class="p-3 m-3 border">
+          <p class="text-center text-muted">
+            <strong>
+              <u>Create Person</u>
+            </strong>
+          </p>
+          <form #createPersonForm="ngForm" (submit)="createPerson($event, createPersonForm)" ngNativeValidate>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="personName">Name</label>
+                <input type="text" class="form-control" id="personName" name="personName" [(ngModel)]="newPerson.name" placeholder="Ex: John Doe"
+                  required>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="personAge">Age</label>
+                <input type="number" class="form-control" id="personAge" name="personAge" [(ngModel)]="newPerson.age" placeholder="Ex: 25"
+                  required>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-5">Submit</button>
+            </div>
+          </form>
         </div>
-        <hr>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Onwership Contract</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let asset of assets; let i = index;">
-              <th scope="row">{{i+1}}</th>
-              <td>{{asset[0]}}</td>
-              <td>{{asset[1]}}</td>
-              <td>{{asset[2]}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="p-3 m-3 border">
+          <p class="text-center text-muted">
+            <strong>
+              <u>View Persons</u>
+            </strong>
+          </p>
+          <div>
+            Available Persons :
+            <strong>{{persons.length}}</strong>
+            <button class="btn btn-sm btn-primary float-right" (click)="getPersons()">Refresh</button>
+          </div>
+          <hr>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let person of persons; let i = index;">
+                <th scope="row">{{i+1}}</th>
+                <td>{{person[0]}}</td>
+                <td>{{person[1]}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
