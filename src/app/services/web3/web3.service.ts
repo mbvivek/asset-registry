@@ -3,10 +3,13 @@ import * as contract from 'truffle-contract';
 declare let require: any;
 declare let window: any;
 const Web3 = require('web3');
+var bip39 = require('bip39');
+var hdkey = require('ethereumjs-wallet/hdkey');
+var hash = require('json-hash');
 
 @Injectable()
 export class Web3Service {
-  private web3: any;
+  public web3: any;
   public accounts: string[];
 
   constructor() {
@@ -67,4 +70,28 @@ export class Web3Service {
     });
   }
 
+  public generateMnemonic() {
+    return bip39.generateMnemonic();
+  }
+
+  public generateWalletFromSeed(mnemonic) {
+    let hdwallet = hdkey.fromMasterSeed(bip39.mnemonicToSeed(mnemonic));
+    let wallet = hdwallet.getWallet();
+    return wallet;
+  }
+
+  public sign(message, privateKey) {
+    var messageHash = hash.digest(message);
+    var signature = this.web3.eth.accounts.sign(messageHash, privateKey);
+    signature['message'] = message;
+    return signature;
+  }
+
+  public recoverFromSignatureObj(signatureObj) {
+    return this.web3.eth.accounts.recover(signatureObj);
+  }
+
+  public recoverFromSignature(message, signature) {
+    return this.web3.eth.accounts.recover(message, signature);
+  }
 }

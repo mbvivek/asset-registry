@@ -39,6 +39,35 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit() {}
 
+  generateAccount() {
+    var mnemonic = this.web3Service.generateMnemonic();
+    console.log('seed words = ' + mnemonic);
+    var wallet = this.web3Service.generateWalletFromSeed(mnemonic);
+    var address = wallet.getChecksumAddressString();
+    var publicKey = wallet.getPublicKeyString();
+    var privateKey = wallet.getPrivateKeyString();
+    console.log('address = ' + address);
+    console.log('publicKey = ' + publicKey);
+    console.log('privateKey = ' + privateKey);
+    // var message = 'Vivek';
+    var message1 = {
+      firstname: 'Vivek',
+      lastname: 'Badrinarayan',
+    };
+    var message2 = {
+      lastname: 'Badrinarayan',
+      firstname: 'Vivekk',
+    };
+    var signature1 = this.web3Service.sign(message1, privateKey);
+    console.log(signature1);
+    var recover1 = this.web3Service.recoverFromSignatureObj(signature1);
+    console.log('recover = ' + recover1);
+    var signature2 = this.web3Service.sign(message2, privateKey);
+    console.log(signature2);
+    var recover2 = this.web3Service.recoverFromSignatureObj(signature2);
+    console.log('recover = ' + recover2);
+  }
+
   async createAsset(event, form) {
     event.preventDefault();
     if (!form.valid) {
@@ -47,10 +76,10 @@ export class AdminDashboardComponent implements OnInit {
     }
     let result = await this.assetService.createAsset(this.newAsset);
     if (!result.success) {
-      console.log(result.message);
+      console.log(result['message']);
     } else {
-      console.log('Transaction Successful! TxHash: ' + result.transaction);
-      alert('Transaction Successful! TxHash: ' + result.transaction);
+      console.log('Transaction Successful! TxHash: ' + result['transaction']);
+      alert('Transaction Successful! TxHash: ' + result['transaction']);
     }
     this.newAsset.name = null;
     this.newAsset.desc = null;
@@ -68,11 +97,11 @@ export class AdminDashboardComponent implements OnInit {
       return;
     }
     let result = await this.personService.createPerson(this.newPerson);
-    if (!result.success) {
-      console.log(result.message);
+    if (!result['success']) {
+      console.log(result['message']);
     } else {
-      console.log('Transaction Successful! TxHash: ' + result.transaction);
-      alert('Transaction Successful! TxHash: ' + result.transaction);
+      console.log('Transaction Successful! TxHash: ' + result['transaction']);
+      alert('Transaction Successful! TxHash: ' + result['transaction']);
     }
     this.newPerson.name = null;
     this.newPerson.age = null;
